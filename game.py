@@ -16,7 +16,6 @@ def play():
         room = world.tile_at(player.x, player.y)
         print(room.intro_text())
         room.modify_player(player)
-        room.modify_player(player)
         if player.is_alive() and not player.victory:
             choose_action(room, player)
         elif not player.is_alive():
@@ -42,9 +41,9 @@ def get_available_actions(room, player):
         action_adder(actions, "i", player.print_inventory, "Print inventory")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, "a", player.attack, "Attack")
-    if isinstance(room, world.TraderTile):
-        action_adder(actions, "t", player.trade, "Trade")
     else:
+        if isinstance(room, world.TraderTile):
+            action_adder(actions, "t", player.trade, "Trade")
         if world.tile_at(room.x, room.y - 1):
             action_adder(actions, "n", player.move_north, "Go north")
         if world.tile_at(room.x, room.y + 1):
