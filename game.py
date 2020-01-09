@@ -10,6 +10,7 @@ def play():
     play loops through all the actions
     """
     print("Escape from Cave Terror!")
+    world.parse_world_dsl()
     player = Player()
     while True:
         room = world.tile_at(player.x, player.y)
@@ -37,6 +38,8 @@ def get_available_actions(room, player):
         action_adder(actions, "i", player.print_inventory, "Print inventory")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, "a", player.attack, "Attack")
+    if isinstance(room, world.TraderTile):
+        action_adder(actions, "t", player.trade, "Trade")
     else:
         if world.tile_at(room.x, room.y - 1):
             action_adder(actions, "n", player.move_north, "Go north")

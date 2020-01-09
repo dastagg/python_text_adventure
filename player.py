@@ -6,10 +6,11 @@ class Player(object):
     """docstring for Player"""
 
     def __init__(self):
-        self.inventory = [items.Rock(), items.Dagger(), "Gold(5)", items.CrustyBread()]
-        self.x = 1
-        self.y = 2
+        self.inventory = [items.Rock(), items.Dagger(), items.CrustyBread()]
+        self.x = world.start_tile_location[0]
+        self.y = world.start_tile_location[1]
         self.hp = 100
+        self.gold = 5
 
     def move(self, dx, dy):
         self.x += dx
@@ -33,6 +34,7 @@ class Player(object):
             print("* " + str(item))
         best_weapon = self.most_powerful_weapon()
         print(f"Your best weapon is your {best_weapon}.")
+        print(f"Gold: {self.gold}.")
 
     def most_powerful_weapon(self):
         max_damage = 0
@@ -81,3 +83,7 @@ class Player(object):
                 valid = True
             except (ValueError, IndexError):
                 print("Invalid choice, try again.")
+
+    def trade(self):
+        room = world.tile_at(self.x, self.y)
+        room.check_if_trade(self)
